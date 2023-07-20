@@ -1,43 +1,24 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+name: Continuous Deployment
 
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - main  # Replace 'main' with your repository's main branch name
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
         with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+          host: 54.208.83.138
+          username: ashwani
+          key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCp5xTq+f1HFd/MCuq30iZLADX+MOYiE3WDTYUH6Bu4yKLm0plkLaZy6Aj1oVKRPwitV5n/klKoMBOSINCe+e6jzsfloSQ0H+N6OiMAZpqix8azmnuzXWX92plR76dc30sag6t22GXnualht62ARYNb+dPoJr2J25Dhn5c5gHNjZTKig4lbrCqJhUg69HI7Po5SSsdFyqwD2U3TLiG19tsm/I9mhe+gCnmEhDIsGbjmMzXQ8OQLyzQ6Ddmb2Q1b4hwhY1HL70weNhUvwU5TaLExsJwRW+98o7psnIwCi+dGSAvO1d8jxTa8bWb9743DCUqo2XpJcVyK49kLffS2/xeMeIw63f3ALqNk0HfKf2PKTgE7DTK6zJQ9LoxvR7bOPwtZ+gR/5onXkJYPOcObJToBmmv69HCevFhPVUurLUuPjv2c3UvlOdaBhzPr7Q5KY4wCBq75JG8FHQiXPa8YlLMxzPdigkKup6IIuC+eeEysqXZkDFwT9rIQkGCeru81qdoDJxc/5z3GHbHdtIwKQRa+TXQyibJbQr0OyWL78XkdnG0zVkIla8gjxYar+uSco4+cimKrHxKFomKjNXfH2fosgbHJlIw+MepF5Fqxt9rFaL7tQNHkuUb+jPOc2vemweyLHV682u/iXYr91WYFg4bMO6U8vItDlAPEkXLRxRza5w== ashwanidevops321@gmail.com
+          port: 22  # Change this if your SSH server uses a different port
+          script: |
+            bash /path/to/your/deployment_script.sh
