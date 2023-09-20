@@ -8,7 +8,7 @@ pipeline {
         stage("Deploy to Remote") {
             steps {
                 script {
-                    // Use the correct private key file for authentication
+                    // Use the correct path to the jenkins-pipeline directory
                     sh "scp -r -i /var/lib/jenkins/.ssh/id_rsa ${WORKSPACE}/jenkins-pipeline/* jenkins@${staging_server}:/var/www/html/"
                 }
             }
