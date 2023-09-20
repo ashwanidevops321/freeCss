@@ -8,8 +8,8 @@ pipeline {
         stage("Deploy to Remote") {
             steps {
                 script {
-                    // Use WORKSPACE variable to reference Jenkins workspace
-                    sh "scp -r ${WORKSPACE}/jenkins-pipeline/* jenkins@${staging_server}:/var/www/html/"
+                    // Use the correct private key file for authentication
+                    sh "scp -r -i /var/lib/jenkins/.ssh/id_rsa ${WORKSPACE}/jenkins-pipeline/* jenkins@${staging_server}:/var/www/html/"
                 }
             }
         }
