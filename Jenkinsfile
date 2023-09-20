@@ -2,15 +2,18 @@ pipeline {
     agent any
     environment {
         staging_server = "20.163.29.223"
+        ssh_key = credentials('121') // Replace with your SSH credentials ID
     }
     stages {
         stage("Deploy to Remote") {
             steps {
                 script {
-                    // Use scp to copy files to the remote host
-                    sh """
-                    scp -r /var/lib/jenkins/workspace/pipeline-project/* root@${staging_server}:/var/www/
-                    """
+                    // Use sshagent to handle SSH key and host key verification
+                    sshagent(credentials: [ssh_key]) {
+                        sh """
+                        scp -i ${ssh_key} -r /var/lib/jenkins/workspace/pipeline-project/* azureuser@${staging_server}:/var/www/
+                        """
+                    }
                 }
             }
         }
