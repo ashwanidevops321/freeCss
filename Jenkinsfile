@@ -8,7 +8,7 @@ pipeline {
         stage("Deploy to Remote") {
             steps {
                 script {
-                    sh "scp -r ${WORKSPACE}/* azureuser@${staging_server}:/var/www/html/"
+                    sh "scp -r ${WORKSPACE}/* jenkins@${staging_server}:/var/www/html/"
                 }
             }
         }
