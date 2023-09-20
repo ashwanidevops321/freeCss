@@ -11,8 +11,8 @@ pipeline {
                     // Use sshagent to handle SSH key and host key verification
                     sshagent(credentials: [ssh_key]) {
                         sh """
-                        scp -i ${ssh_key} -o StrictHostKeyChecking=no 
-                             /var/lib/jenkins/workspace/pipeline-project/Jenkinsfile \
+                        scp -i \$SSH_KEY -o StrictHostKeyChecking=no \
+                            /var/lib/jenkins/workspace/pipeline-project/Jenkinsfile \
                             /var/lib/jenkins/workspace/pipeline-project/about.html \
                             /var/lib/jenkins/workspace/pipeline-project/ashwani.txt \
                             /var/lib/jenkins/workspace/pipeline-project/contact.html \
@@ -24,7 +24,7 @@ pipeline {
                             /var/lib/jenkins/workspace/pipeline-project/index.html \
                             /var/lib/jenkins/workspace/pipeline-project/js/script.js \
                             /var/lib/jenkins/workspace/pipeline-project/tranner.html \
-                            azureuser@${staging_server}:/var/www/html
+                            azureuser@${staging_server}:/var/www/html/
                         """
                     }
                 }
